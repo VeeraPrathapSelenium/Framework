@@ -15,6 +15,8 @@ public class Tc_01 extends GenericMethods{
 		MyInfo info=new MyInfo();
 		
 		info.navigateTo_MyInfo();
+		info.enter_PersonalDetails();
+		
 	}
 	
 

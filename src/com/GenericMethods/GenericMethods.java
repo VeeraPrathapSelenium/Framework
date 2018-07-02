@@ -104,4 +104,22 @@ public class GenericMethods extends ReadExcel{
 		}
 		return status;
 	}
+	
+	
+	public static void setText(String xpath,String data)
+	{
+		boolean status=true;
+		
+		try
+		{
+			WebElement element=driver.findElement(By.xpath(xpath));
+			element.click();
+			element.clear();
+			element.sendKeys(data);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
 }

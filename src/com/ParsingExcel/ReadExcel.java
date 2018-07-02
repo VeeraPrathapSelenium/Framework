@@ -46,7 +46,7 @@ public class ReadExcel {
 	public static String crnttestcase;
 	public static String description;
 	public static String crntkeyword;
-	
+	public static String crntiteration;
 
 
 //*******************************************************************	
@@ -181,14 +181,15 @@ public static int getColumn_Header_Position(String sheetname,String columnname)
 	
 }
 
-public static int getRowNumber_Testcase_Position(String sheetname,String testcase)
+public static int getRowNumber_Testcase_Position(String sheetname,String testcase,String itr)
 {
 	int rownumber=0;
 	for(int i=0;i<=getRowCount(sheetname);i++)
 	{
 		String rowdata=sheet.getRow(i).getCell(0).getStringCellValue();
 		
-		if(rowdata.toLowerCase().equals(testcase.toLowerCase()))
+		String crntitr=sheet.getRow(i).getCell(2).getStringCellValue();
+		if(rowdata.toLowerCase().equals(testcase.toLowerCase()) && crntitr.equals(itr))
 		{
 			rownumber=i;
 			break;
@@ -201,12 +202,12 @@ public static int getRowNumber_Testcase_Position(String sheetname,String testcas
 	
 }
 
-public static void getData(String sheetname,String testcase,String columnname)
+public static String getData(String sheetname,String testcase,String columnname, String itr)
 {
 	
-	String data="No data found";
+	String data="";
 	
-	int row=getRowNumber_Testcase_Position(sheetname,testcase);
+	int row=getRowNumber_Testcase_Position(sheetname,testcase,itr);
 	
 	if(!(row==0))
 	{
@@ -232,7 +233,7 @@ public static void getData(String sheetname,String testcase,String columnname)
 				String rowdata=sheet.getRow(row).getCell(colnmber).getStringCellValue();
 				
 				System.out.println(rowdata);
-				
+				data=rowdata;
 				break;
 
 			default:
@@ -243,7 +244,7 @@ public static void getData(String sheetname,String testcase,String columnname)
 		}
 		
 	}
-	
+	return data;
 }
 
 
@@ -294,9 +295,27 @@ public static void read_EachTestcase()
 				{
 					try {
 					Class cls=Class.forName(crnttestcase);
-					Method m=cls.getDeclaredMethod(keyword, null);
-				
+					
+					// get data based on iteration
+					
+					//verify if the "_" is available for the keyword
+					if(! keyword.contains("_"))
+					{
+						Method m=cls.getDeclaredMethod(keyword, null);
+						
 						m.invoke(m);
+					}
+					else
+					{
+						
+						
+						crntkeyword=keyword.split("_")[0];
+						crntiteration=keyword.split("_")[1];
+						Method m=cls.getDeclaredMethod(crntkeyword, null);
+						
+						m.invoke(m);
+					}
+					
 					} catch (Exception e) {
 						
 						System.out.println("Exception occur in executing the test case "+crnttestcase);
