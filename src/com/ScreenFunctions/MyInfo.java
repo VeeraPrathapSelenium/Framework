@@ -21,14 +21,16 @@ public class MyInfo extends GenericMethods{
 			if(status)
 			{
 				System.out.println("My Info is clicked sucessfully");
+				logEvent("pass", "My Info is clicked sucessfully");
 			}
 			else
 			{
 				System.out.println("My Info is not clicked sucessfully");
+				logEvent("fail", "My Info is not clicked sucessfully");
 			}
 		}catch(Exception e)
 		{
-			
+			logEvent("fail", "Unable to click on MyInfo "+e.getMessage());
 		}
 		
 		return status;

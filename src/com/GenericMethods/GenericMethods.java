@@ -50,6 +50,10 @@ public class GenericMethods extends ReadExcel{
 			driver.findElement(By.xpath(property.getProperty("Edi_Login_Username"))).sendKeys(username);
 			driver.findElement(By.xpath(property.getProperty("Edi_Login_Password"))).sendKeys(password);
 			driver.findElement(By.xpath(property.getProperty("Btn_Login_Signin"))).click();
+			
+			logEvent("pass", "Login is sucessfull");
+			
+			
 		}
 		catch(Exception e)
 		{

@@ -11,6 +11,8 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.ReportsGeneration.GenerateReports;
+
 /*
  * ClassName:ReadExcel
  * 
@@ -25,7 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 
-public class ReadExcel {
+public class ReadExcel extends GenerateReports{
 	
 //********************* Variable Declarations ***********************
 
@@ -284,6 +286,13 @@ public static void read_EachTestcase()
 		
 		if(!(crnttestcase.isEmpty()) && execute.trim().toLowerCase().equals("yes"))
 		{
+			//create the result folder based on the current test case
+			create_ResultFolder();
+			
+			//intialize the result report on test case name
+			
+			intializeReport();
+			
 			
 			for(int c=3;c<=cnt;c++)
 			{
@@ -301,6 +310,7 @@ public static void read_EachTestcase()
 					//verify if the "_" is available for the keyword
 					if(! keyword.contains("_"))
 					{
+						startTest(keyword);
 						Method m=cls.getDeclaredMethod(keyword, null);
 						
 						m.invoke(m);
@@ -310,11 +320,14 @@ public static void read_EachTestcase()
 						
 						
 						crntkeyword=keyword.split("_")[0];
+						startTest(crntkeyword);
 						crntiteration=keyword.split("_")[1];
 						Method m=cls.getDeclaredMethod(crntkeyword, null);
 						
 						m.invoke(m);
 					}
+					
+					
 					
 					} catch (Exception e) {
 						
@@ -322,7 +335,7 @@ public static void read_EachTestcase()
 						e.printStackTrace();
 					} 
 					
-					
+					endTest();
 					
 				}else
 				{
@@ -332,6 +345,7 @@ public static void read_EachTestcase()
 				
 			}
 			
+			flushReport();
 			
 		}
 		else
@@ -346,6 +360,7 @@ public static void read_EachTestcase()
 		
 		
 	}
+	
 	
 	
 }
