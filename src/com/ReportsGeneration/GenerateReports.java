@@ -62,7 +62,7 @@ public static String resultpath;
 		
 		switch (status.toLowerCase()) {
 		case "pass":
-			test.log(LogStatus.PASS, description);
+			test.log(LogStatus.PASS, description+test.addBase64ScreenShot(takescreenprint()));
 			break;
 		case "fail":
 			test.log(LogStatus.FAIL, description);
@@ -93,25 +93,26 @@ public static String resultpath;
 	}
 	
 	
-public static void takescreenprint()
-{
+public static String takescreenprint()
+{String path="";
 	try
 	{
 	TakesScreenshot sht=(TakesScreenshot)GenericMethods.driver;
 	
-	File src=sht.getScreenshotAs(OutputType.FILE);
+	//File src=sht.getScreenshotAs(OutputType.FILE);
 	
-	String dest=resultpath+"\\mypic.png";
+	String img=sht.getScreenshotAs(OutputType.BASE64);
 	
-	
-	org.apache.commons.io.FileUtils.copyFile(src, new File(dest));
+	path="data:image/jpg;base64, "+img;
+
+	//org.apache.commons.io.FileUtils.copyFile(src, new File(dest));
 	
 	}
 	catch(Exception e)
 	{
 		System.out.println(e.getMessage());
 	}
-	
+	return path;
 	
 }
 	
